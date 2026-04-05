@@ -30,17 +30,17 @@ class Resetpasswordscreen extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 30),
         child: Form(
           key: controller.formstate,
-          child: ListView(
-            children: [
-              SizedBox(height: 30),
-              Buildicon(iconData: Icons.lock_open_outlined),
-              Customtexttitleauth(text: "Change Password"),
-              Custombodytitle(text: "Forget your Password Change it "),
+          child: GetBuilder<ResetpasswordcontrollerImp>(
+            builder: (controller) => ListView(
+              children: [
+                SizedBox(height: 30),
+                Buildicon(iconData: Icons.lock_open_outlined),
+                Customtexttitleauth(text: "Change Password"),
+                Custombodytitle(text: "Forget your Password Change it "),
 
-              SizedBox(height: 50),
+                SizedBox(height: 50),
 
-              GetBuilder<ResetpasswordcontrollerImp>(
-                builder: (controller) => Customtextformauth(
+                Customtextformauth(
                   valid: (val) {
                     return validInput(val!, 8, 15, "password");
                   },
@@ -57,26 +57,33 @@ class Resetpasswordscreen extends StatelessWidget {
                       : Icons.visibility,
                   labeltext: "password",
                 ),
-              ),
-              Customtextformauth(
-                valid: (val) {
-                  return validInput(val!, 8, 15, " Confirm password");
-                },
-                isNumber: false,
-                mycontroller: controller.password,
-                hinttext: "Confirm Password",
-                iconData: Icons.lock_outline,
-                labeltext: "password",
-              ),
 
-              Custombuttonauth(
-                onPressed: () {
-                  controller.goToSuccessResetPassword();
-                },
-                text: "Save",
-              ),
-              SizedBox(height: 40),
-            ],
+                Customtextformauth(
+                  valid: (val) {
+                    return validInput(val!, 8, 15, " Confirm password");
+                  },
+                  isNumber: false,
+                  onTapIcon: () {
+                    controller.showPassword();
+                    controller.tooglePasswoed();
+                  },
+                  obscureText: controller.isshowPassword,
+                  mycontroller: controller.password,
+                  hinttext: "Confirm Password",
+                  iconData: controller.isHidden
+                      ? Icons.visibility_off_outlined
+                      : Icons.visibility,
+                  labeltext: "Confirm password",
+                ),
+                Custombuttonauth(
+                  onPressed: () {
+                    controller.goToSuccessResetPassword();
+                  },
+                  text: "Save",
+                ),
+                SizedBox(height: 40),
+              ],
+            ),
           ),
         ),
       ),

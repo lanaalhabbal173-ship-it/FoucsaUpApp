@@ -3,6 +3,7 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:test/core/class/constant/routes.dart';
+import 'package:test/core/class/statusrequest.dart';
 
 abstract class SignUpController extends GetxController {
   signUP();
@@ -16,6 +17,7 @@ class SignUpControllerImp extends SignUpController {
   late TextEditingController phone;
   late TextEditingController email;
   late TextEditingController password;
+  late StatusRequest statusRequest;
   bool isshowPassword = true;
   bool isHidden = true;
   showPassword() {
@@ -50,6 +52,9 @@ class SignUpControllerImp extends SignUpController {
   @override
   signUP() {
     if (formstate.currentState!.validate()) {
+      statusRequest = StatusRequest.loading;
+      update();
+
       Get.offNamed(AppRoutes.successsignup);
     } else {
       print("Not Vaild");

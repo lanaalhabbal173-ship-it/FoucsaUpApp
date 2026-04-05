@@ -34,7 +34,7 @@ class Signupscreen extends StatelessWidget {
               key: controller.formstate,
               child: ListView(
                 children: [
-                  SizedBox(height: 20),
+                  SizedBox(height: 10),
 
                   Center(child: Textfocusup()),
                   SizedBox(height: 30),
@@ -88,13 +88,32 @@ class Signupscreen extends StatelessWidget {
                       labeltext: "password",
                     ),
                   ),
+                  GetBuilder<SignUpControllerImp>(
+                    builder: (controller) => Customtextformauth(
+                      valid: (val) {
+                        return validInput(val!, 8, 15, "password");
+                      },
+                      onTapIcon: () {
+                        controller.showPassword();
+                        controller.tooglePasswoed();
+                      },
+                      obscureText: controller.isshowPassword,
+                      isNumber: false,
+                      mycontroller: controller.password,
+                      hinttext: "Enter Your Confirm password",
+                      iconData: controller.isHidden
+                          ? Icons.visibility_off_outlined
+                          : Icons.visibility,
+                      labeltext: "Confirm password",
+                    ),
+                  ),
                   Custombuttonauth(
                     onPressed: () {
                       controller.signUP();
                     },
                     text: "Sign Up",
                   ),
-                  SizedBox(height: 25),
+                  //  SizedBox(height: 10),
                   Textsignup(
                     onTap: () {
                       controller.goToSignIn();

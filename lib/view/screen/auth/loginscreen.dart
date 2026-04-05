@@ -80,7 +80,7 @@ class Loginscreen extends StatelessWidget {
                 ),
                 Custombuttonauth(
                   onPressed: () {
-                    controller.login();
+                    controller.signIn();
                   },
                   text: "Sign In",
                 ),

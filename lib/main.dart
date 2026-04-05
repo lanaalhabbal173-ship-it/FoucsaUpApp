@@ -9,6 +9,7 @@ import 'package:test/view/screen/auth/forgetpassword/resetpasswordscreen.dart';
 import 'package:test/view/screen/auth/signupscreen.dart';
 import 'package:test/view/screen/auth/splashscreen.dart';
 import 'package:test/view/screen/auth/success_signup.dart';
+import 'package:test/view/screen/home/homepage_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -38,6 +39,7 @@ class MyApp extends StatelessWidget {
           name: "/succesresetpassword",
           page: () => Successresetpassword(),
         ),
+        GetPage(name: "/homepagescreen", page: () => HomepageScreen()),
       ],
     );
   }
