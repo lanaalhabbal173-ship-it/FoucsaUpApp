@@ -8,4 +8,5 @@ class AppRoutes {
   static const String successsignup = "/successignup";
   static const String checkemailscreen = "/checkemailscreen";
   static const String homepagescreen = "/homepagescreen";
+  static const String qrcodescreen = "/qrcodescreen";
 }

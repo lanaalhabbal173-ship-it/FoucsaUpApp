@@ -51,6 +51,15 @@ class BuildHallsSection extends StatelessWidget {
           message: 'ازدحام متوسط، احجز مسبقاً',
         ),
         HallCongestionCard(
+          name: "القاعة الاجتماعية",
+          percent: 68,
+          occupied: 14,
+          total: 20,
+          colors: const [Color(0xFFF59E0B), Color(0xFFD97706)],
+          message: 'ازدحام متوسط، احجز مسبقاً',
+        ),
+
+        HallCongestionCard(
           name: 'قاعة النقاش',
           percent: 92,
           occupied: 23,

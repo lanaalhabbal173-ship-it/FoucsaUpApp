@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_navigation/src/extension_navigation.dart';
+import 'package:get/get.dart';
+import 'package:test/controller/home/homepagecontroller.dart';
 import 'package:test/view/widget/home/action_card.dart';
 
 class Buildaction extends StatelessWidget {
@@ -8,6 +8,7 @@ class Buildaction extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    HomePageControllerImp controller = Get.put(HomePageControllerImp());
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -50,7 +51,9 @@ class Buildaction extends StatelessWidget {
               label: 'رمزية الدراسة',
               icon: Icons.qr_code_rounded,
               colors: const [Color(0xFF22C55E), Color(0xFF16A34A)],
-              onTap: () => Get.toNamed('/qr'),
+              onTap: () {
+                controller.goToQrCode();
+              },
             ),
             ActionCard(
               label: 'البوفيه',
