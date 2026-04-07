@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:test/controller/home/homepagecontroller.dart';
+import 'package:test/core/class/constant/appcolor.dart';
 import 'package:test/view/widget/home/action_card.dart';
 
 class Buildaction extends StatelessWidget {
@@ -30,22 +31,12 @@ class Buildaction extends StatelessWidget {
           childAspectRatio: 1.4,
           children: [
             ActionCard(
-              label: 'حجز مقاعد',
+              label: 'انواع الحجز',
               icon: Icons.event_seat_outlined,
-              colors: const [Color(0xFF4E9BFF), Color(0xFF3B7DD8)],
-              onTap: () {},
-            ),
-            ActionCard(
-              label: 'اكتشاف الازدحام',
-              icon: Icons.search_rounded,
-              colors: const [Color(0xFFFF9B4E), Color(0xFFF07030)],
-              onTap: () {},
-            ),
-            ActionCard(
-              label: 'عجلة الحظ',
-              icon: Icons.casino_outlined,
-              colors: const [Color(0xFFA855F7), Color(0xFF7C3AED)],
-              onTap: () => Get.toNamed('/wheel'),
+              colors: const [Color(0xFF4E9BFF), Appcolor.scondary],
+              onTap: () {
+                controller.goToTypeBooking();
+              },
             ),
             ActionCard(
               label: 'رمزية الدراسة',
@@ -55,6 +46,13 @@ class Buildaction extends StatelessWidget {
                 controller.goToQrCode();
               },
             ),
+
+            // ActionCard(
+            //   label: 'اكتشاف الازدحام',
+            //   icon: Icons.search_rounded,
+            //   colors: const [Color(0xFFFF9B4E), Color(0xFFF07030)],
+            //   onTap: () {},
+            // ),
             ActionCard(
               label: 'البوفيه',
               icon: Icons.local_cafe_outlined,
@@ -62,11 +60,26 @@ class Buildaction extends StatelessWidget {
               onTap: () => Get.toNamed('/buffet'),
             ),
             ActionCard(
-              label: 'الفعاليات',
-              icon: Icons.event_outlined,
-              colors: const [Color(0xFFF87171), Color(0xFFDC2626)],
-              onTap: () => Get.toNamed('/events'),
+              label: 'عجلة الحظ',
+              icon: Icons.casino_outlined,
+              colors: const [Color(0xFFA855F7), Color(0xFF7C3AED)],
+              onTap: () {
+                controller.goToLuckyWheel();
+              },
             ),
+
+            // ActionCard(
+            //   label: 'البوفيه',
+            //   icon: Icons.local_cafe_outlined,
+            //   colors: const [Color(0xFF2DD4BF), Color(0xFF0D9488)],
+            //   onTap: () => Get.toNamed('/buffet'),
+            // ),
+            // ActionCard(
+            //   label: 'الفعاليات',
+            //   icon: Icons.event_outlined,
+            //   colors: const [Color(0xFFF87171), Color(0xFFDC2626)],
+            //   onTap: () => Get.toNamed('/events'),
+            // ),
           ],
         ),
       ],

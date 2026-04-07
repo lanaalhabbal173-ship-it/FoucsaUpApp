@@ -9,4 +9,6 @@ class AppRoutes {
   static const String checkemailscreen = "/checkemailscreen";
   static const String homepagescreen = "/homepagescreen";
   static const String qrcodescreen = "/qrcodescreen";
+  static const String typebookingscreen = "/typebookingscreen";
+  static const String luckywheelscreen = "/luckywheelscreen";
 }

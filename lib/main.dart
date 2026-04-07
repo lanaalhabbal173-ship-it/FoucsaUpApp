@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:test/bindings/luckywheel.dart';
 import 'package:test/core/services/services.dart';
 import 'package:test/localization/transliation.dart';
 import 'package:test/view/screen/auth/forgetpassword/forgetpasswordscreen.dart';
@@ -10,7 +11,9 @@ import 'package:test/view/screen/auth/signupscreen.dart';
 import 'package:test/view/screen/auth/splashscreen.dart';
 import 'package:test/view/screen/auth/success_signup.dart';
 import 'package:test/view/screen/home/homepage_screen.dart';
+import 'package:test/view/screen/home/luckywheel_screen.dart';
 import 'package:test/view/screen/home/qrcode_screen.dart';
+import 'package:test/view/screen/home/typebooking_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -42,6 +45,8 @@ class MyApp extends StatelessWidget {
         ),
         GetPage(name: "/homepagescreen", page: () => HomepageScreen()),
         GetPage(name: "/qrcodescreen", page: () => QrcodeScreen()),
+        GetPage(name: "/typebookingscreen", page: () => TypebookingScreen()),
+        GetPage(name: "/luckywheelscreen", page: () => LuckywheelScreen()),
       ],
     );
   }

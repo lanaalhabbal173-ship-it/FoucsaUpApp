@@ -3,11 +3,9 @@ import 'package:get/get_core/src/get_main.dart' show Get;
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/state_manager.dart';
 import 'package:test/controller/home/homepagecontroller.dart';
-import 'package:test/view/widget/home/build_halls_section.dart';
+import 'package:test/core/class/constant/appcolor.dart';
 import 'package:test/view/widget/home/build_package_section.dart';
 import 'package:test/view/widget/home/buildaction.dart';
-import 'package:test/view/widget/home/buildheader.dart';
-import 'package:test/view/widget/home/nav_item.dart';
 
 class HomepageScreen extends StatelessWidget {
   const HomepageScreen({super.key});
@@ -15,57 +13,61 @@ class HomepageScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     HomePageControllerImp controller = Get.put(HomePageControllerImp());
-    // final screenheight = MediaQuery.of(context).size.height;
+
     return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: BottomAppBar(
-        shape: CircularNotchedRectangle(),
-        // notchMargin: 15,
+        shape: const CircularNotchedRectangle(),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            NavItem(
-              active: controller.currentPage == 0 ? true : false,
-              textbutton: "Home",
-              icondata: Icons.home,
-              onPressed: () {
-                controller.changePage(0);
-              },
-            ),
-            NavItem(
-              active: controller.currentPage == 1 ? true : false,
-
-              textbutton: "QR",
-              icondata: Icons.qr_code_scanner_outlined,
-              onPressed: () {
-                controller.changePage(1);
-              },
-            ),
-            NavItem(
-              active: controller.currentPage == 2 ? true : false,
-              textbutton: "profile",
-              icondata: Icons.person,
-              onPressed: () {
-                controller.changePage(2);
-              },
-            ),
-          ],
+          children: [],
         ),
       ),
-      body: Column(
-        children: [
-          Buildheader(),
-          Expanded(
-            child: SingleChildScrollView(
+
+      body: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            backgroundColor: Appcolor.scondary,
+            elevation: 0,
+            floating: true,
+            snap: true,
+            pinned: false,
+
+            title: RichText(
+              text: const TextSpan(
+                children: [
+                  TextSpan(
+                    text: 'Focus',
+                    style: TextStyle(
+                      fontSize: 26,
+                      fontWeight: FontWeight.w700,
+                      color: Appcolor.backgroundcolor,
+                    ),
+                  ),
+                  TextSpan(
+                    text: 'Up',
+                    style: TextStyle(
+                      fontSize: 26,
+                      fontWeight: FontWeight.w700,
+                      color: Appcolor.primary,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+
+          SliverToBoxAdapter(
+            child: Padding(
               padding: const EdgeInsets.all(16),
               child: Column(
-                children: [
+                children: const [
                   Buildaction(),
-                  const SizedBox(height: 20),
-                  BuildHallsSection(),
-                  const SizedBox(height: 20),
+                  SizedBox(height: 20),
+                  //   BuildHallsSection(),
+                  SizedBox(height: 20),
                   BuildPackageSection(),
-                  const SizedBox(height: 20),
+                  SizedBox(height: 20),
                 ],
               ),
             ),
@@ -74,6 +76,69 @@ class HomepageScreen extends StatelessWidget {
       ),
     );
   }
+}
+  // final screenheight = MediaQuery.of(context).size.height;
+  //   return Scaffold(
+  //     appBar: AppBar(backgroundColor: Colors.transparent, elevation: 0),
+  //     floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+  //     bottomNavigationBar: BottomAppBar(
+  //       shape: CircularNotchedRectangle(),
+  //       // notchMargin: 15,
+  //       child: Row(
+  //         mainAxisAlignment: MainAxisAlignment.spaceAround,
+  //         children: [
+  //           NavItem(
+  //             active: controller.currentPage == 0 ? true : false,
+  //             textbutton: "Home",
+  //             icondata: Icons.home,
+  //             onPressed: () {
+  //               controller.changePage(0);
+  //             },
+  //           ),
+  //           NavItem(
+  //             active: controller.currentPage == 1 ? true : false,
+
+  //             textbutton: "QR",
+  //             icondata: Icons.qr_code_scanner_outlined,
+  //             onPressed: () {
+  //               controller.changePage(1);
+  //             },
+  //           ),
+  //           NavItem(
+  //             active: controller.currentPage == 2 ? true : false,
+  //             textbutton: "profile",
+  //             icondata: Icons.person,
+  //             onPressed: () {
+  //               controller.changePage(2);
+  //             },
+  //           ),
+  //         ],
+  //       ),
+  //     ),
+  //     body: Column(
+  //       children: [
+  //         // Buildheader(),
+  //         Expanded(
+  //           child: SingleChildScrollView(
+  //             padding: const EdgeInsets.all(16),
+  //             child: Column(
+  //               children: [
+  //                 Buildaction(),
+  //                 const SizedBox(height: 20),
+  //                 BuildHallsSection(),
+  //                 const SizedBox(height: 20),
+  //                 BuildPackageSection(),
+  //                 const SizedBox(height: 20),
+  //               ],
+  //             ),
+  //           ),
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  // }
+
+  //====================================
   //       appBar: AppBar(backgroundColor: Appcolor.scondary),
   //       drawer: Drawer(
   //         child: ListView(
@@ -192,4 +257,4 @@ class HomepageScreen extends StatelessWidget {
   //     );
   //   }
   // }
-}
+
