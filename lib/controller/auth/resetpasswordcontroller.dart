@@ -3,6 +3,7 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:test/core/class/constant/routes.dart';
+import 'package:test/core/class/statusrequest.dart';
 
 abstract class Resetpasswordcontroller extends GetxController {
   goToSuccessResetPassword();
@@ -12,35 +13,47 @@ class ResetpasswordcontrollerImp extends Resetpasswordcontroller {
   GlobalKey<FormState> formstate = GlobalKey<FormState>();
 
   late TextEditingController password;
-  late TextEditingController ConfirmPassword;
-  bool isshowPassword = true;
-  bool isHidden = true;
-  showPassword() {
-    isshowPassword = isshowPassword == true ? false : true;
+  late TextEditingController password_confirmation;
+  bool isPasswordHidden = true;
+  bool isConfirmHidden = true;
+  late StatusRequest statusRequest;
+
+  void togglePassword() {
+    isPasswordHidden = !isPasswordHidden;
     update();
   }
 
-  tooglePasswoed() {
-    isHidden = !isHidden;
+  void toggleConfirmPassword() {
+    isConfirmHidden = !isConfirmHidden;
     update();
   }
 
   @override
   void onInit() {
     password = TextEditingController();
-    ConfirmPassword = TextEditingController();
+    password_confirmation = TextEditingController();
     super.onInit();
   }
 
   @override
   void dispose() {
-    ConfirmPassword.dispose();
+    password_confirmation.dispose();
     password.dispose();
     super.dispose();
   }
 
   @override
   goToSuccessResetPassword() {
-    Get.offAllNamed(AppRoutes.successresetpassword);
+    if (password.text != password_confirmation.text)
+      return Get.defaultDialog(
+        title: "warning",
+        middleText: "password Not Match",
+      );
+    if (formstate.currentState!.validate()) {
+      statusRequest = StatusRequest.loading;
+      update();
+
+      Get.offAllNamed(AppRoutes.successresetpassword);
+    }
   }
 }

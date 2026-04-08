@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:test/bindings/luckywheel.dart';
+import 'package:test/bindings/initialbindings.dart';
+import 'package:test/core/class/constant/storagehandler.dart';
 import 'package:test/core/services/services.dart';
 import 'package:test/localization/transliation.dart';
 import 'package:test/view/screen/auth/forgetpassword/forgetpasswordscreen.dart';
@@ -17,6 +18,7 @@ import 'package:test/view/screen/home/typebooking_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await StorageHandler().init();
   await initialServices();
 
   runApp(const MyApp());
@@ -32,6 +34,7 @@ class MyApp extends StatelessWidget {
       translations: MyTranslation(),
       debugShowCheckedModeBanner: false,
       initialRoute: "/",
+      initialBinding: InitialBindings(),
       getPages: [
         GetPage(name: "/", page: () => Splashscreen()),
         GetPage(name: "/login", page: () => Loginscreen()),

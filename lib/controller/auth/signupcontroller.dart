@@ -3,7 +3,11 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:test/core/class/constant/routes.dart';
+import 'package:test/core/class/constant/storagehandler.dart';
+import 'package:test/core/class/crud.dart';
 import 'package:test/core/class/statusrequest.dart';
+import 'package:test/core/function/handlingdatacontroller.dart';
+import 'package:test/model/datasource/auth/signup_data.dart';
 
 abstract class SignUpController extends GetxController {
   signUP();
@@ -11,22 +15,28 @@ abstract class SignUpController extends GetxController {
 }
 
 class SignUpControllerImp extends SignUpController {
-  GlobalKey<FormState> formstate = GlobalKey<FormState>();
+  SignupData signupData = SignupData(Crud());
 
-  late TextEditingController Username;
+  GlobalKey<FormState> formstate = GlobalKey<FormState>();
+  List data = [];
+  late TextEditingController fullname;
   late TextEditingController phone;
   late TextEditingController email;
   late TextEditingController password;
+  late TextEditingController password_confirmation;
+
   late StatusRequest statusRequest;
-  bool isshowPassword = true;
-  bool isHidden = true;
-  showPassword() {
-    isshowPassword = isshowPassword == true ? false : true;
+
+  bool isPasswordHidden = true;
+  bool isConfirmHidden = true;
+
+  void togglePassword() {
+    isPasswordHidden = !isPasswordHidden;
     update();
   }
 
-  tooglePasswoed() {
-    isHidden = !isHidden;
+  void toggleConfirmPassword() {
+    isConfirmHidden = !isConfirmHidden;
     update();
   }
 
@@ -35,7 +45,8 @@ class SignUpControllerImp extends SignUpController {
     email = TextEditingController();
     password = TextEditingController();
     phone = TextEditingController();
-    Username = TextEditingController();
+    fullname = TextEditingController();
+    password_confirmation = TextEditingController();
 
     super.onInit();
   }
@@ -45,21 +56,96 @@ class SignUpControllerImp extends SignUpController {
     email.dispose();
     password.dispose();
     phone.dispose();
-    Username.dispose();
+    fullname.dispose();
+    password_confirmation.dispose();
     super.dispose();
   }
 
   @override
-  signUP() {
+  signUP() async {
+    if (password.text != password_confirmation.text)
+      return Get.defaultDialog(
+        title: "warning",
+        middleText: "password Not Match",
+      );
     if (formstate.currentState!.validate()) {
       statusRequest = StatusRequest.loading;
       update();
 
-      Get.offNamed(AppRoutes.successsignup);
-    } else {
-      print("Not Vaild");
+      var response = await signupData.postData(
+        fullname.text,
+        phone.text,
+        email.text,
+        password.text,
+        password_confirmation.text,
+      );
+
+      statusRequest = handlingData(response);
+
+      if (statusRequest == StatusRequest.success) {
+        if (response["status"] == "success") {
+          // إذا السيرفر يرجع token
+          if (response["token"] != null) {
+            StorageHandler().setToken(response["token"]);
+          }
+
+          Get.offNamed(AppRoutes.successsignup);
+        } else {
+          Get.defaultDialog(
+            title: "Error",
+            middleText: response["message"] ?? "Signup failed",
+          );
+        }
+      } else {
+        Get.defaultDialog(
+          title: "Error",
+          middleText: "Check internet / server",
+        );
+      }
+
+      update();
     }
   }
+
+  // signUP() async {
+  //   if (formstate.currentState!.validate()) {
+  //     statusRequest = StatusRequest.loading;
+  //     var response = await signupData.postData(
+  //       fullname.text,
+  //       phone.text,
+  //       email.text,
+  //       password.text,
+  //       forgetpassword.text,
+  //     );
+  //     statusRequest = handlingData(response);
+  //     if (statusRequest == StatusRequest.success) {
+  //       if (response['status'] == "success") {
+  //         Get.offNamed(AppRoutes.successsignup);
+  //       } else {
+  //         Get.defaultDialog(
+  //           title: "Sign Up Failed",
+  //           middleText:
+  //               response['message'] ?? "An error occurred during sign up.",
+  //           textConfirm: "OK",
+  //           onConfirm: () => Get.back(),
+  //         );
+  //       }
+  //     } else {
+  //       Get.defaultDialog(
+  //         title: "Error",
+  //         middleText: "Failed to sign up. Please try again later.",
+  //         textConfirm: "OK",
+  //         onConfirm: () => Get.back(),
+  //       );
+  //     }
+
+  //     update();
+
+  //     //  Get.offNamed(AppRoutes.successsignup);
+  //   } else {
+  //     print("Not Vaild");
+  //   }
+  // }
 
   @override
   goToSignIn() {

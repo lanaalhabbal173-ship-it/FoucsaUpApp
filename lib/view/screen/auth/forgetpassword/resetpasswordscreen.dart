@@ -41,39 +41,36 @@ class Resetpasswordscreen extends StatelessWidget {
                 SizedBox(height: 50),
 
                 Customtextformauth(
-                  valid: (val) {
-                    return validInput(val!, 8, 15, "password");
-                  },
-                  onTapIcon: () {
-                    controller.showPassword();
-                    controller.tooglePasswoed();
-                  },
-                  obscureText: controller.isshowPassword,
+                  valid: (val) => validInput(val!, 6, 20, "password"),
                   isNumber: false,
                   mycontroller: controller.password,
-                  hinttext: "Enter Your password",
-                  iconData: controller.isHidden
+                  hinttext: "Enter Password",
+                  labeltext: "Password",
+                  obscureText: controller.isPasswordHidden,
+                  iconData: controller.isPasswordHidden
                       ? Icons.visibility_off_outlined
-                      : Icons.visibility,
-                  labeltext: "password",
+                      : Icons.visibility_outlined,
+                  onTapIcon: () {
+                    controller.togglePassword();
+                  },
                 ),
 
+                // CONFIRM PASSWORD
                 Customtextformauth(
                   valid: (val) {
-                    return validInput(val!, 8, 15, " Confirm password");
+                    return validInput(val!, 6, 20, " password");
                   },
                   isNumber: false,
-                  onTapIcon: () {
-                    controller.showPassword();
-                    controller.tooglePasswoed();
-                  },
-                  obscureText: controller.isshowPassword,
-                  mycontroller: controller.password,
+                  mycontroller: controller.password_confirmation,
                   hinttext: "Confirm Password",
-                  iconData: controller.isHidden
+                  labeltext: "Confirm Password",
+                  obscureText: controller.isConfirmHidden,
+                  iconData: controller.isConfirmHidden
                       ? Icons.visibility_off_outlined
-                      : Icons.visibility,
-                  labeltext: "Confirm password",
+                      : Icons.visibility_outlined,
+                  onTapIcon: () {
+                    controller.toggleConfirmPassword();
+                  },
                 ),
                 Custombuttonauth(
                   onPressed: () {

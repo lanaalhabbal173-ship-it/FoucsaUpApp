@@ -1,4 +1,4 @@
 class AppLink {
-  static const String Server = "http://";
-  static const String SignUP = "http://";
+  static const String server = "http://192.168.1.112:8080/api";
+  static const String SignUP = "$server/register";
 }

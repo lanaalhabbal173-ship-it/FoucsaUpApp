@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:test/core/class/constant/appcolor.dart';
 
 class Buildbookingcard extends StatelessWidget {
   final String text;
