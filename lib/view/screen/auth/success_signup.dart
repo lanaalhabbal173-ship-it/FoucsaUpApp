@@ -1,18 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_instance/src/extension_instance.dart';
+import 'package:get/get.dart';
 import 'package:test/controller/auth/successsignupcontroller.dart';
 import 'package:test/core/class/constant/appcolor.dart';
 import 'package:test/view/widget/auth/custombuttonauth.dart';
 
-class SuccessSignup extends StatelessWidget {
+class SuccessSignup extends GetView<SuccessSignupControllerImp> {
   const SuccessSignup({super.key});
 
   @override
   Widget build(BuildContext context) {
-    SuccessSignupControllerImp controller = Get.put(
-      SuccessSignupControllerImp(),
-    );
+    Get.put(SuccessSignupControllerImp());
     return Scaffold(
       appBar: AppBar(toolbarHeight: 40.0, backgroundColor: Appcolor.scondary),
       body: Container(

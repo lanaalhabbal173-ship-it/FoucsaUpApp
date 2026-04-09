@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_instance/src/extension_instance.dart';
-import 'package:get/get_state_manager/src/simple/get_state.dart';
+import 'package:get/get.dart';
 import 'package:test/controller/auth/logincontroller.dart';
 import 'package:test/core/class/constant/appcolor.dart';
 import 'package:test/core/function/alertexitapp.dart';
@@ -11,12 +9,12 @@ import 'package:test/view/widget/auth/custombuttonauth.dart';
 import 'package:test/view/widget/auth/customtextformauth.dart';
 import 'package:test/view/widget/auth/textsignup.dart';
 
-class Loginscreen extends StatelessWidget {
+class Loginscreen extends GetView<LoginControllerImp> {
   const Loginscreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    LoginControllerImp controller = Get.put(LoginControllerImp());
+    Get.put(LoginControllerImp());
 
     return Scaffold(
       backgroundColor: Colors.white,

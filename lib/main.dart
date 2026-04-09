@@ -14,7 +14,13 @@ import 'package:test/view/screen/auth/success_signup.dart';
 import 'package:test/view/screen/home/homepage_screen.dart';
 import 'package:test/view/screen/home/luckywheel_screen.dart';
 import 'package:test/view/screen/home/qrcode_screen.dart';
-import 'package:test/view/screen/home/typebooking_screen.dart';
+import 'package:test/view/screen/reservation/discovering_the_congestion_screen.dart';
+import 'package:test/view/screen/reservation/hall_discussion_screen.dart';
+import 'package:test/view/screen/reservation/hall_quiet_screen.dart';
+import 'package:test/view/screen/reservation/hall_smoke_free_screen.dart';
+import 'package:test/view/screen/reservation/hall_social_for_smoker_screen.dart';
+import 'package:test/view/screen/reservation/typebooking_screen.dart';
+import 'package:test/view/screen/reservation/table_reservation_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -50,6 +56,27 @@ class MyApp extends StatelessWidget {
         GetPage(name: "/qrcodescreen", page: () => QrcodeScreen()),
         GetPage(name: "/typebookingscreen", page: () => TypebookingScreen()),
         GetPage(name: "/luckywheelscreen", page: () => LuckywheelScreen()),
+        GetPage(
+          name: "/tablereservationscreen",
+          page: () => TableReservationScreen(),
+        ),
+        GetPage(
+          name: "/discoveringthecongestionscreen",
+          page: () => DiscoveringTheCongestionScreen(),
+        ),
+        GetPage(name: "/hallquietscreen", page: () => HallQuietScreen()),
+        GetPage(
+          name: "/halldiscussionscreen",
+          page: () => HallDiscussionScreen(),
+        ),
+        GetPage(
+          name: "/hallsmokefreescreen",
+          page: () => HallSmokeFreeScreen(),
+        ),
+        GetPage(
+          name: "/hallsocialforsmokerscreen",
+          page: () => HallSocialForSmokerScreen(),
+        ),
       ],
     );
   }

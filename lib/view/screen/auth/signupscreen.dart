@@ -141,7 +141,7 @@ import 'package:test/view/widget/auth/customtextformauth.dart';
 import 'package:test/view/widget/auth/textfocusup.dart';
 import 'package:test/view/widget/auth/textsignup.dart';
 
-class Signupscreen extends StatelessWidget {
+class Signupscreen extends GetView<SignUpControllerImp> {
   const Signupscreen({super.key});
 
   @override
@@ -159,6 +159,7 @@ class Signupscreen extends StatelessWidget {
         backgroundColor: Appcolor.scondary,
       ),
       body: GetBuilder<SignUpControllerImp>(
+        init: SignUpControllerImp(),
         builder: (controller) => WillPopScope(
           onWillPop: alertExitApp,
           child: Container(
@@ -223,7 +224,7 @@ class Signupscreen extends StatelessWidget {
                       return validInput(val!, 6, 20, " password");
                     },
                     isNumber: false,
-                    mycontroller: controller.password_confirmation,
+                    mycontroller: controller.passwordConfirmation,
                     hinttext: "Confirm Password",
                     labeltext: "Confirm Password",
                     obscureText: controller.isConfirmHidden,

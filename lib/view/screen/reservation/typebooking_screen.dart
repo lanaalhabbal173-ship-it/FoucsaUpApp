@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_instance/src/extension_instance.dart';
+import 'package:get/get_state_manager/src/simple/get_view.dart';
+import 'package:test/controller/reservation/type_booking_controller.dart';
 import 'package:test/core/class/constant/appcolor.dart';
 import 'package:test/view/widget/typeofbooking/buildbookingcard.dart';
 
-class TypebookingScreen extends StatelessWidget {
+class TypebookingScreen extends GetView<TypeBookingControllerImp> {
   const TypebookingScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    Get.put(TypeBookingControllerImp());
     return Scaffold(
       backgroundColor: const Color(0xffF5F6FA),
       body: Directionality(
@@ -14,7 +19,7 @@ class TypebookingScreen extends StatelessWidget {
         child: CustomScrollView(
           slivers: [
             SliverAppBar(
-              backgroundColor: Colors.white,
+              backgroundColor: Appcolor.scondary,
               elevation: 0,
               floating: false,
               pinned: false,
@@ -41,12 +46,14 @@ class TypebookingScreen extends StatelessWidget {
                     const SizedBox(height: 30),
                     Buildbookingcard(
                       icon: Icons.event_seat_outlined,
-                      color: const Color(0xff2E7D32),
+                      color: Appcolor.gren,
                       text: "حجز طاولة",
                       text2: ".بيئة هادئة مصممة لزيادة تركيز او الأنجاز الفردي",
                       text3: "أختيار الطاولة",
-                      backgroundColor: const Color(0xff2E7D32),
-                      onPressed: () {},
+                      backgroundColor: Appcolor.gren,
+                      onPressed: () {
+                        controller.goToDiscoveringTheCongestion();
+                      },
                     ),
                     const SizedBox(height: 30),
                   ],

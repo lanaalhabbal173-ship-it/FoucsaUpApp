@@ -1,34 +1,55 @@
 import 'package:flutter/material.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_navigation/src/extension_navigation.dart';
-import 'package:get/get_state_manager/get_state_manager.dart';
+import 'package:get/get.dart';
+import 'package:test/core/class/constant/appcolor.dart';
+
 import 'package:test/core/class/constant/routes.dart';
 import 'package:test/core/class/constant/storagehandler.dart';
 import 'package:test/core/class/crud.dart';
 import 'package:test/core/class/statusrequest.dart';
 import 'package:test/core/function/handlingdatacontroller.dart';
 import 'package:test/model/datasource/auth/signup_data.dart';
+import 'package:test/model/static/signup_model.dart';
 
 abstract class SignUpController extends GetxController {
-  signUP();
-  goToSignIn();
+  void signUP();
+  void goToSignIn();
 }
 
 class SignUpControllerImp extends SignUpController {
-  SignupData signupData = SignupData(Crud());
+  final SignupData signupData = SignupData(Crud());
 
   GlobalKey<FormState> formstate = GlobalKey<FormState>();
-  List data = [];
+
   late TextEditingController fullname;
   late TextEditingController phone;
   late TextEditingController email;
   late TextEditingController password;
-  late TextEditingController password_confirmation;
+  late TextEditingController passwordConfirmation;
 
-  late StatusRequest statusRequest;
+  StatusRequest statusRequest = StatusRequest.none;
 
   bool isPasswordHidden = true;
   bool isConfirmHidden = true;
+
+  @override
+  void onInit() {
+    fullname = TextEditingController();
+    phone = TextEditingController();
+    email = TextEditingController();
+    password = TextEditingController();
+    passwordConfirmation = TextEditingController();
+    super.onInit();
+  }
+
+  @override
+  void dispose() {
+    fullname.dispose();
+    phone.dispose();
+    email.dispose();
+    password.dispose();
+    passwordConfirmation.dispose();
+    super.dispose();
+  }
 
   void togglePassword() {
     isPasswordHidden = !isPasswordHidden;
@@ -41,114 +62,54 @@ class SignUpControllerImp extends SignUpController {
   }
 
   @override
-  void onInit() {
-    email = TextEditingController();
-    password = TextEditingController();
-    phone = TextEditingController();
-    fullname = TextEditingController();
-    password_confirmation = TextEditingController();
+  void signUP() async {
+    if (!formstate.currentState!.validate()) return;
 
-    super.onInit();
-  }
+    if (password.text != passwordConfirmation.text) {
+      Get.defaultDialog(title: "Warning", middleText: "Passwords do not match");
+      return;
+    }
 
-  @override
-  void dispose() {
-    email.dispose();
-    password.dispose();
-    phone.dispose();
-    fullname.dispose();
-    password_confirmation.dispose();
-    super.dispose();
-  }
+    final model = SignupModel(
+      fullName: fullname.text,
+      email: email.text,
+      phone: phone.text,
+      password: password.text,
+      password_confirmation: passwordConfirmation.text,
+    );
 
-  @override
-  signUP() async {
-    if (password.text != password_confirmation.text)
-      return Get.defaultDialog(
-        title: "warning",
-        middleText: "password Not Match",
-      );
-    if (formstate.currentState!.validate()) {
-      statusRequest = StatusRequest.loading;
-      update();
+    statusRequest = StatusRequest.loading;
+    update();
 
-      var response = await signupData.postData(
-        fullname.text,
-        phone.text,
-        email.text,
-        password.text,
-        password_confirmation.text,
-      );
+    var response = await signupData.postData(model);
 
-      statusRequest = handlingData(response);
+    statusRequest = handlingData(response);
 
-      if (statusRequest == StatusRequest.success) {
-        if (response["status"] == "success") {
-          // إذا السيرفر يرجع token
-          if (response["token"] != null) {
-            StorageHandler().setToken(response["token"]);
-          }
-
-          Get.offNamed(AppRoutes.successsignup);
-        } else {
-          Get.defaultDialog(
-            title: "Error",
-            middleText: response["message"] ?? "Signup failed",
-          );
+    if (statusRequest == StatusRequest.success) {
+      if (response["status"] == "success") {
+        if (response["token"] != null) {
+          StorageHandler().setToken(response["token"]);
         }
+
+        Get.offNamed(AppRoutes.successsignup);
       } else {
         Get.defaultDialog(
-          title: "Error",
-          middleText: "Check internet / server",
+          backgroundColor: Appcolor.grey,
+          middleTextStyle: TextStyle(color: Colors.white),
+          title: "success",
+          titleStyle: TextStyle(color: Colors.white),
+          middleText: response["message"] ?? "Signup failed",
         );
       }
-
-      update();
+    } else {
+      Get.defaultDialog(title: "Error", middleText: "Check internet or server");
     }
+
+    update();
   }
 
-  // signUP() async {
-  //   if (formstate.currentState!.validate()) {
-  //     statusRequest = StatusRequest.loading;
-  //     var response = await signupData.postData(
-  //       fullname.text,
-  //       phone.text,
-  //       email.text,
-  //       password.text,
-  //       forgetpassword.text,
-  //     );
-  //     statusRequest = handlingData(response);
-  //     if (statusRequest == StatusRequest.success) {
-  //       if (response['status'] == "success") {
-  //         Get.offNamed(AppRoutes.successsignup);
-  //       } else {
-  //         Get.defaultDialog(
-  //           title: "Sign Up Failed",
-  //           middleText:
-  //               response['message'] ?? "An error occurred during sign up.",
-  //           textConfirm: "OK",
-  //           onConfirm: () => Get.back(),
-  //         );
-  //       }
-  //     } else {
-  //       Get.defaultDialog(
-  //         title: "Error",
-  //         middleText: "Failed to sign up. Please try again later.",
-  //         textConfirm: "OK",
-  //         onConfirm: () => Get.back(),
-  //       );
-  //     }
-
-  //     update();
-
-  //     //  Get.offNamed(AppRoutes.successsignup);
-  //   } else {
-  //     print("Not Vaild");
-  //   }
-  // }
-
   @override
-  goToSignIn() {
+  void goToSignIn() {
     Get.offNamed(AppRoutes.login);
   }
 }
