@@ -7,12 +7,12 @@ import 'package:test/core/class/constant/appcolor.dart';
 import 'package:test/view/widget/home/build_package_section.dart';
 import 'package:test/view/widget/home/buildaction.dart';
 
-class HomepageScreen extends StatelessWidget {
+class HomepageScreen extends GetView<HomePageControllerImp> {
   const HomepageScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    HomePageControllerImp controller = Get.put(HomePageControllerImp());
+    Get.put(HomePageControllerImp());
 
     return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
