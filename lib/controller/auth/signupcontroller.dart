@@ -6,8 +6,8 @@ import 'package:test/core/class/constant/routes.dart';
 import 'package:test/core/class/constant/storagehandler.dart';
 import 'package:test/core/class/crud.dart';
 import 'package:test/core/class/statusrequest.dart';
-import 'package:test/core/function/handlingdatacontroller.dart';
 import 'package:test/model/datasource/auth/signup_data.dart';
+import 'package:test/model/static/auth_model.dart';
 import 'package:test/model/static/signup_model.dart';
 
 abstract class SignUpController extends GetxController {
@@ -81,30 +81,52 @@ class SignUpControllerImp extends SignUpController {
     statusRequest = StatusRequest.loading;
     update();
 
-    var response = await signupData.postData(model);
+    try {
+      var response = await signupData.postData(model);
 
-    statusRequest = handlingData(response);
+      print("🔵 RAW RESPONSE => $response");
 
-    if (statusRequest == StatusRequest.success) {
-      if (response["status"] == "success") {
-        if (response["token"] != null) {
-          StorageHandler().setToken(response["token"]);
-        }
+      if (response != null && response["token"] != null) {
+        print("✅ SUCCESS BLOCK ENTERED");
 
-        Get.offNamed(AppRoutes.successsignup);
+        /// 🔥 هون أهم سطر (استخدام المودل)
+        final auth = AuthModel.fromJson(response);
+
+        statusRequest = StatusRequest.success;
+        update();
+
+        /// 💾 حفظ التوكن
+        StorageHandler().setToken(auth.token);
+
+        /// 🔥 مثال استخدام user
+        print(auth.user.fullName);
+        print(auth.user.email);
+
+        Get.offAllNamed(AppRoutes.successsignup);
       } else {
+        print("❌ FAILED CONDITION");
+
+        statusRequest = StatusRequest.failure;
+        update();
+
         Get.defaultDialog(
           backgroundColor: Appcolor.grey,
-          middleTextStyle: TextStyle(color: Colors.white),
-          title: "success",
-          titleStyle: TextStyle(color: Colors.white),
-          middleText: response["message"] ?? "Signup failed",
+          title: "Error",
+          middleTextStyle: const TextStyle(color: Colors.white),
+          titleStyle: const TextStyle(color: Colors.white),
+          middleText: response?["message"] ?? "Signup failed",
         );
       }
-    } else {
-      Get.defaultDialog(title: "Error", middleText: "Check internet or server");
+    } catch (e) {
+      print("❌ EXCEPTION => $e");
+
+      statusRequest = StatusRequest.failure;
+      update();
+
+      Get.defaultDialog(title: "Error", middleText: "Server error occurred");
     }
 
+    statusRequest = StatusRequest.none;
     update();
   }
 

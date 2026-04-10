@@ -159,7 +159,6 @@ class Signupscreen extends GetView<SignUpControllerImp> {
         backgroundColor: Appcolor.scondary,
       ),
       body: GetBuilder<SignUpControllerImp>(
-        init: SignUpControllerImp(),
         builder: (controller) => WillPopScope(
           onWillPop: alertExitApp,
           child: Container(

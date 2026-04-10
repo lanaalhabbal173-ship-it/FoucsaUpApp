@@ -5,7 +5,7 @@ class AppRoutes {
   static const String splashscreen = "/splashscreen";
   static const String resetpassword = "/resetpassword";
   static const String successresetpassword = "/succesresetpassword";
-  static const String successsignup = "/successignup";
+  static const String successsignup = "/successsignup";
   static const String checkemailscreen = "/checkemailscreen";
   static const String homepagescreen = "/homepagescreen";
   static const String qrcodescreen = "/qrcodescreen";

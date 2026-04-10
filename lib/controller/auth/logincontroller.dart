@@ -3,7 +3,11 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:test/core/class/constant/routes.dart';
+import 'package:test/core/class/constant/storagehandler.dart';
+import 'package:test/core/class/crud.dart';
 import 'package:test/core/class/statusrequest.dart';
+import 'package:test/model/datasource/auth/login_data.dart';
+import 'package:test/model/static/auth_model.dart';
 
 abstract class LoginController extends GetxController {
   login();
@@ -13,6 +17,7 @@ abstract class LoginController extends GetxController {
 }
 
 class LoginControllerImp extends LoginController {
+  final LoginData loginData = LoginData(Crud());
   GlobalKey<FormState> formstate = GlobalKey<FormState>();
   late TextEditingController email;
   late TextEditingController password;
@@ -59,7 +64,46 @@ class LoginControllerImp extends LoginController {
   }
 
   @override
-  signIn() {
-    Get.offNamed(AppRoutes.homepagescreen);
+  signIn() async {
+    if (!formstate.currentState!.validate()) return;
+
+    statusRequest = StatusRequest.loading;
+    update();
+
+    try {
+      var response = await loginData.postData({
+        "email": email.text,
+        "password": password.text,
+      });
+
+      print("🔵 LOGIN RESPONSE => $response");
+
+      if (response != null && response["token"] != null) {
+        final auth = AuthModel.fromJson(response);
+
+        statusRequest = StatusRequest.success;
+        update();
+
+        StorageHandler().setToken(auth.token);
+
+        Get.offAllNamed(AppRoutes.homepagescreen);
+      } else {
+        statusRequest = StatusRequest.failure;
+        update();
+
+        Get.defaultDialog(
+          title: "Error",
+          middleText: response?["message"] ?? "Login failed",
+        );
+      }
+    } catch (e) {
+      print("❌ EXCEPTION => $e");
+
+      statusRequest = StatusRequest.failure;
+      update();
+    }
+
+    statusRequest = StatusRequest.none;
+    update();
   }
 }

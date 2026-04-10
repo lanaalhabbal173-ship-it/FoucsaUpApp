@@ -1,10 +1,16 @@
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
-class HallQuietScreen extends StatelessWidget {
+import 'package:test/controller/reservation/hall_quiet_controller.dart';
+
+class HallQuietScreen extends GetView<HallQuietControllerImp> {
   const HallQuietScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Container();
-  }
+    Get.put(HallQuietControllerImp());
+    return Scaffold(
+     
+    
+  );
 }

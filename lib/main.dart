@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:test/bindings/initialbindings.dart';
 import 'package:test/core/class/constant/storagehandler.dart';
 import 'package:test/core/services/services.dart';
 import 'package:test/localization/transliation.dart';
@@ -40,14 +39,14 @@ class MyApp extends StatelessWidget {
       translations: MyTranslation(),
       debugShowCheckedModeBanner: false,
       initialRoute: "/",
-      initialBinding: InitialBindings(),
+      //  initialBinding: InitialBindings(),
       getPages: [
         GetPage(name: "/", page: () => Splashscreen()),
         GetPage(name: "/login", page: () => Loginscreen()),
         GetPage(name: "/signup", page: () => Signupscreen()),
         GetPage(name: "/forgetpassword", page: () => Forgetpasswordscreen()),
         GetPage(name: "/resetpassword", page: () => Resetpasswordscreen()),
-        GetPage(name: "/successignup", page: () => SuccessSignup()),
+        GetPage(name: "/successsignup", page: () => SuccessSignup()),
         GetPage(
           name: "/succesresetpassword",
           page: () => Successresetpassword(),
