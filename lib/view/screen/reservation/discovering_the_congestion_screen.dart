@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
+import 'package:get/get_navigation/src/extension_navigation.dart';
+import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:get/get_state_manager/src/simple/get_view.dart';
 import 'package:test/controller/reservation/discovering_the_congestion_controller.dart';
 import 'package:test/core/class/constant/appcolor.dart';
@@ -14,95 +16,63 @@ class DiscoveringTheCongestionScreen
   Widget build(BuildContext context) {
     Get.put(DiscoveringTheCongestionControllerImp());
     return Scaffold(
-      body: CustomScrollView(
-        slivers: [
-          /// 🔹 AppBar حديث (Floating + شفاف)
-          SliverAppBar(
-            title: const Text(
-              'اكتشاف الازدحام',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w800),
+      body: Obx(() {
+        if (controller.isLoading.value) {
+          return const Center(child: CircularProgressIndicator());
+        }
+
+        return CustomScrollView(
+          slivers: [
+            /// AppBar
+            SliverAppBar(
+              title: const Text(
+                'اكتشاف الازدحام',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w800,
+                  color: Colors.white,
+                ),
+              ),
+              floating: true,
+              snap: true,
+              elevation: 0,
+              backgroundColor: Appcolor.fourthColor,
+              leading: IconButton(
+                icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
+                onPressed: () => Get.back(),
+              ),
             ),
-            floating: true,
-            snap: true,
-            elevation: 0,
-            backgroundColor: Appcolor.scondary,
-          ),
 
-          /// 🔹 Content
-          SliverPadding(
-            padding: const EdgeInsets.all(16),
-            sliver: SliverList(
-              delegate: SliverChildListDelegate([
-                /// 🔸 Section Header (Card شكل حديث)
-                Container(
-                  padding: const EdgeInsets.all(14),
-                  decoration: BoxDecoration(
-                    color: Colors.grey.shade100,
-                    borderRadius: BorderRadius.circular(14),
-                  ),
-                  child: const Text(
-                    'حالة القاعات',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w800),
-                  ),
-                ),
+            /// Content
+            SliverPadding(
+              padding: const EdgeInsets.all(16),
+              sliver: SliverList(
+                delegate: SliverChildBuilderDelegate((context, index) {
+                  final room = controller.rooms[index];
 
-                const SizedBox(height: 14),
-
-                /// 🔹 Cards
-                HallCongestionCard(
-                  name: 'القاعة الهادئة',
-                  percent: 35,
-                  occupied: 18,
-                  total: 30,
-                  colors: const [Color(0xFF22C55E), Color(0xFF16A34A)],
-                  message: 'هادئة ومناسبة للتركيز العالي',
-                  onTap: () {
-                    controller.gotohallquit();
-                  },
-                ),
-
-                const SizedBox(height: 12),
-
-                HallCongestionCard(
-                  name: 'قاعة الاجتماعية (بدون مدخنين)',
-                  percent: 68,
-                  occupied: 14,
-                  total: 20,
-                  colors: const [Color(0xFFF59E0B), Color(0xFFD97706)],
-                  message: 'ازدحام متوسط، احجز مسبقاً',
-                  onTap: controller.goTOhallsmokefree,
-                ),
-
-                const SizedBox(height: 12),
-
-                HallCongestionCard(
-                  name: 'قاعة النقاش',
-                  percent: 92,
-                  occupied: 23,
-                  total: 25,
-                  colors: const [Color(0xFFEF4444), Color(0xFFDC2626)],
-                  message: 'ممتلئة تقريباً، انتظر قليلاً',
-                  onTap: controller.goTohallDiscussion,
-                ),
-
-                const SizedBox(height: 12),
-
-                HallCongestionCard(
-                  name: 'قاعة الاجتماعية (مدخنين)',
-                  percent: 92,
-                  occupied: 23,
-                  total: 25,
-                  colors: const [Color(0xFFEF4444), Color(0xFFDC2626)],
-                  message: 'ممتلئة تقريباً، انتظر قليلاً',
-                  onTap: controller.goTohallSocialForSmoker,
-                ),
-
-                const SizedBox(height: 20),
-              ]),
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 12),
+                    child: HallCongestionCard(
+                      name: room.name,
+                      percent: room.percentage,
+                      occupied: room.currentOccupancy,
+                      total: room.capacity,
+                      colors: [
+                        controller.getColor(room.percentage),
+                        controller.getColor(room.percentage),
+                      ],
+                      message: controller.getMessage(room.percentage),
+                      onTap: () {
+                        controller.goToRoom(room.id);
+                      },
+                    ),
+                  );
+                }, childCount: controller.rooms.length),
+              ),
             ),
-          ),
-        ],
-      ),
+          ],
+        );
+      }),
     );
   }
 }

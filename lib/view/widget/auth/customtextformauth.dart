@@ -34,7 +34,7 @@ class Customtextformauth extends StatelessWidget {
         validator: valid,
         controller: mycontroller,
         obscureText: obscureText == null || obscureText == false ? false : true,
-        style: TextStyle(fontSize: 20),
+        style: TextStyle(fontSize: 14),
         decoration: InputDecoration(
           focusColor: Appcolor.scondary,
           hintText: hinttext,

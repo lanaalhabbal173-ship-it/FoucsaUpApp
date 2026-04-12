@@ -70,38 +70,45 @@ class LoginControllerImp extends LoginController {
     statusRequest = StatusRequest.loading;
     update();
 
-    try {
-      var response = await loginData.postData({
-        "email": email.text,
-        "password": password.text,
-      });
+    var response = await loginData.postData({
+      "email": email.text,
+      "password": password.text,
+    });
 
-      print("🔵 LOGIN RESPONSE => $response");
+    print("🔵 LOGIN RESPONSE => $response");
 
-      if (response != null && response["token"] != null) {
-        final auth = AuthModel.fromJson(response);
+    response.fold(
+      (failure) {
+        print("❌ ERROR => $failure");
 
-        statusRequest = StatusRequest.success;
-        update();
-
-        StorageHandler().setToken(auth.token);
-
-        Get.offAllNamed(AppRoutes.homepagescreen);
-      } else {
         statusRequest = StatusRequest.failure;
         update();
 
-        Get.defaultDialog(
-          title: "Error",
-          middleText: response?["message"] ?? "Login failed",
-        );
-      }
-    } catch (e) {
-      print("❌ EXCEPTION => $e");
+        Get.defaultDialog(title: "Error", middleText: "Server error");
+      },
+      (data) {
+        print("📦 DATA => $data");
 
-      statusRequest = StatusRequest.failure;
-      update();
-    }
+        if (data["token"] != null) {
+          final auth = AuthModel.fromJson(data);
+
+          StorageHandler().setToken(auth.token);
+
+          statusRequest = StatusRequest.success;
+          update();
+
+          Get.offAllNamed(AppRoutes.homepagescreen);
+        } else {
+          statusRequest = StatusRequest.failure;
+          update();
+
+          Get.defaultDialog(
+            title: "Error",
+            middleText: data["message"] ?? "Login failed",
+          );
+        }
+      },
+    );
 
     statusRequest = StatusRequest.none;
     update();

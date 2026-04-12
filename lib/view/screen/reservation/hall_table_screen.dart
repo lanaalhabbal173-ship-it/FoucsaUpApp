@@ -1,7 +1,7 @@
 import 'package:flutter/widgets.dart';
 
-class HallQuietScreen extends StatelessWidget {
-  const HallQuietScreen({super.key});
+class HallTableScreen extends StatelessWidget {
+  const HallTableScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

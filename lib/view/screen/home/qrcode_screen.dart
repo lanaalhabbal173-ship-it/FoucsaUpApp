@@ -2,16 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:test/controller/home/qrcodecontroller.dart';
-import 'package:test/core/class/constant/appcolor.dart';
 
-class QrcodeScreen extends StatelessWidget {
+class QrcodeScreen extends GetView<QrcodecontrollerImp> {
   const QrcodeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    QrcodecontrollerImp controller = Get.put(QrcodecontrollerImp());
     return Scaffold(
-      backgroundColor: const Color(0xFF1A3A5C),
+      backgroundColor: const Color(0xFF0F2A43),
 
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -19,89 +17,110 @@ class QrcodeScreen extends StatelessWidget {
         centerTitle: true,
         title: const Text(
           'رمز الدخول',
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.w700),
-        ),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios, color: Colors.white, size: 18),
-          onPressed: () => Get.back(),
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
       ),
 
       body: Center(
         child: Container(
-          margin: const EdgeInsets.symmetric(horizontal: 40),
-          padding: const EdgeInsets.all(28),
+          margin: const EdgeInsets.symmetric(horizontal: 24),
+          padding: const EdgeInsets.all(24),
           decoration: BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.circular(28),
+            borderRadius: BorderRadius.circular(30),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.15),
+                blurRadius: 20,
+                offset: const Offset(0, 10),
+              ),
+            ],
           ),
 
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              // QR
+              // 🔹 Title
+              const Text(
+                "امسح الرمز عند الدخول والخروج",
+                style: TextStyle(
+                  fontSize: 14,
+                  color: Colors.grey,
+                  fontWeight: FontWeight.w500,
+                ),
+                textAlign: TextAlign.center,
+              ),
+
+              const SizedBox(height: 20),
+
+              // 🔹 QR
               Obx(
-                () => QrImageView(
-                  data: controller.studentId.value,
-                  version: QrVersions.auto,
-                  size: 200,
-                  foregroundColor: const Color(0xFF1A3A5C),
+                () => Container(
+                  padding: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    border: Border.all(color: Colors.blue.shade100),
+                  ),
+                  child: QrImageView(
+                    data: controller.studentId.value.toString(),
+                    size: 200,
+                    foregroundColor: const Color(0xFF0F2A43),
+                  ),
                 ),
               ),
 
-              const SizedBox(height: 16),
+              const SizedBox(height: 20),
 
-              // الاسم
+              // 🔹 Name
               Obx(
                 () => Text(
                   controller.studentname.value,
                   style: const TextStyle(
                     fontSize: 18,
-                    fontWeight: FontWeight.w700,
-                    color: Color(0xFF1A3A5C),
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xFF0F2A43),
                   ),
                 ),
               ),
 
-              const SizedBox(height: 8),
+              const SizedBox(height: 15),
 
-              // الحالة
+              // 🔹 Status
               Obx(
                 () => Container(
                   padding: const EdgeInsets.symmetric(
                     horizontal: 14,
-                    vertical: 6,
+                    vertical: 8,
                   ),
                   decoration: BoxDecoration(
                     color: controller.isInside.value
-                        ? const Color.fromARGB(255, 57, 174, 126)
-                        : const Color(0xFFF1EFE8),
+                        ? const Color(0xFFE6F8F1)
+                        : const Color(0xFFF3F3F3),
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Container(
-                        width: 7,
-                        height: 7,
+                        width: 8,
+                        height: 8,
                         decoration: BoxDecoration(
-                          color: controller.isInside.value
-                              ? const Color(0xFF1D9E75)
-                              : const Color(0xFF888780),
                           shape: BoxShape.circle,
+                          color: controller.isInside.value
+                              ? Colors.green
+                              : Colors.grey,
                         ),
                       ),
                       const SizedBox(width: 6),
                       Text(
                         controller.isInside.value
-                            ? 'داخل المركز'
-                            : 'خارج المركز',
+                            ? "داخل المركز"
+                            : "خارج المركز",
                         style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w600,
                           color: controller.isInside.value
-                              ? const Color(0xFF0F6E56)
-                              : const Color(0xFF888780),
+                              ? Colors.green
+                              : Colors.grey,
+                          fontWeight: FontWeight.w600,
                         ),
                       ),
                     ],
@@ -111,28 +130,27 @@ class QrcodeScreen extends StatelessWidget {
 
               const SizedBox(height: 12),
 
+              // 🔹 Session info
               Obx(
                 () => controller.sessionDuration.value.isNotEmpty
-                    ? Text(
-                        'مدة الجلسة: ${controller.sessionDuration.value}',
-                        style: const TextStyle(
-                          fontSize: 12,
-                          color: Appcolor.black,
+                    ? Container(
+                        padding: const EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          color: Colors.blue.shade50,
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Text(
+                          "مدة الجلسة: ${controller.sessionDuration.value}",
+                          style: const TextStyle(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w500,
+                          ),
                         ),
                       )
                     : const SizedBox(),
               ),
             ],
           ),
-        ),
-      ),
-
-      bottomNavigationBar: const Padding(
-        padding: EdgeInsets.only(bottom: 20),
-        child: Text(
-          'اعرض هذا الرمز لموظف الاستقبال\nعند الدخول والخروج',
-          textAlign: TextAlign.center,
-          style: TextStyle(color: Colors.white70, fontSize: 13, height: 1.7),
         ),
       ),
     );

@@ -28,7 +28,7 @@ class Forgetpasswordscreen extends StatelessWidget {
             top: Radius.elliptical(10, 10),
           ),
         ),
-        leading: BackButton(color: Colors.amber),
+        leading: BackButton(color: Colors.white),
       ),
       body: Container(
         padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 30),

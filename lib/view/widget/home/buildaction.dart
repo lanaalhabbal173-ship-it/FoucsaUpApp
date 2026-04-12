@@ -47,12 +47,14 @@ class Buildaction extends StatelessWidget {
               },
             ),
 
-            // ActionCard(
-            //   label: 'اكتشاف الازدحام',
-            //   icon: Icons.search_rounded,
-            //   colors: const [Color(0xFFFF9B4E), Color(0xFFF07030)],
-            //   onTap: () {},
-            // ),
+            ActionCard(
+              label: 'رفيق الدراسة',
+              icon: Icons.person,
+              colors: const [Color(0xFFFF9B4E), Color(0xFFF07030)],
+              onTap: () {
+                controller.goToStudyCompanion();
+              },
+            ),
             ActionCard(
               label: 'البوفيه',
               icon: Icons.local_cafe_outlined,

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:test/bindings/initialbindings.dart';
+import 'package:test/bindings/qr_binding.dart';
 import 'package:test/core/class/constant/storagehandler.dart';
 import 'package:test/core/services/services.dart';
 import 'package:test/localization/transliation.dart';
@@ -13,11 +15,13 @@ import 'package:test/view/screen/auth/success_signup.dart';
 import 'package:test/view/screen/home/homepage_screen.dart';
 import 'package:test/view/screen/home/luckywheel_screen.dart';
 import 'package:test/view/screen/home/qrcode_screen.dart';
+import 'package:test/view/screen/home/study_companion_screen.dart';
 import 'package:test/view/screen/reservation/discovering_the_congestion_screen.dart';
 import 'package:test/view/screen/reservation/hall_discussion_screen.dart';
 import 'package:test/view/screen/reservation/hall_quiet_screen.dart';
 import 'package:test/view/screen/reservation/hall_smoke_free_screen.dart';
 import 'package:test/view/screen/reservation/hall_social_for_smoker_screen.dart';
+import 'package:test/view/screen/reservation/hall_table_screen.dart';
 import 'package:test/view/screen/reservation/typebooking_screen.dart';
 import 'package:test/view/screen/reservation/table_reservation_screen.dart';
 
@@ -39,7 +43,7 @@ class MyApp extends StatelessWidget {
       translations: MyTranslation(),
       debugShowCheckedModeBanner: false,
       initialRoute: "/",
-      //  initialBinding: InitialBindings(),
+      initialBinding: InitialBindings(),
       getPages: [
         GetPage(name: "/", page: () => Splashscreen()),
         GetPage(name: "/login", page: () => Loginscreen()),
@@ -52,7 +56,11 @@ class MyApp extends StatelessWidget {
           page: () => Successresetpassword(),
         ),
         GetPage(name: "/homepagescreen", page: () => HomepageScreen()),
-        GetPage(name: "/qrcodescreen", page: () => QrcodeScreen()),
+        GetPage(
+          name: "/qrcodescreen",
+          page: () => QrcodeScreen(),
+          binding: QrBinding(),
+        ),
         GetPage(name: "/typebookingscreen", page: () => TypebookingScreen()),
         GetPage(name: "/luckywheelscreen", page: () => LuckywheelScreen()),
         GetPage(
@@ -76,6 +84,11 @@ class MyApp extends StatelessWidget {
           name: "/hallsocialforsmokerscreen",
           page: () => HallSocialForSmokerScreen(),
         ),
+        GetPage(
+          name: "/studycompanionscreen",
+          page: () => StudyCompanionScreen(),
+        ),
+        GetPage(name: "/halltablescreen", page: () => HallTableScreen()),
       ],
     );
   }

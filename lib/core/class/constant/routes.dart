@@ -19,4 +19,6 @@ class AppRoutes {
   static const String hallsocialforsmokerscreen = "/hallsocialforsmokerscreen";
   static const String hallsmokefreescreen = "/hallsmokefreescreen";
   static const String halldiscussionscreen = "/halldiscussionscreen";
+  static const String studycompanionscreen = "/studycompanionscreen";
+  static const String hallTables = "/halltables";
 }
